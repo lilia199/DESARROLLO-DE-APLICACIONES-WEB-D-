@@ -1,0 +1,43 @@
+/* Estilo Personalizado - Sobrescribir Bootstrap */
+.btn-primary {
+    background-color: #ff5733 !important;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    /* Transición suave */
+    transition: all 0.3s ease-in-out;
+}
+
+/* Animaciones y Estados Hover */
+.btn-primary:hover {
+    background-color: #e64a19 !important;
+    transform: translateY(-3px); /* Pequeño salto hacia arriba */
+    box-shadow: 0 5px 15px rgba(255, 87, 51, 0.4); /* Sombra dinámica */
+}
+
+.card {
+    border-radius: 15px; /* Bordes redondeados */
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.02); /* Efecto de zoom leve */
+}
+
+/* Media Query Propia */
+@media (max-width: 576px) {
+    body {
+        background-color: #f8f9fa; /* Cambio de color de fondo en móviles */
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        color: #ff5733;
+    }
+}
+
+/* Sombras adicionales */
+.shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+}
