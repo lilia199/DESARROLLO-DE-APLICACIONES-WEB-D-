@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad Bootstrap 5</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Mi Sitio</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#grid">Galería</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="container text-center my-5">
+        <h1 class="display-4 fw-bold">Diseño Moderno con Bootstrap</h1>
+    </header>
+
+    
+    <main id="grid" class="container my-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <img src="https://picsum.photos/400/300?random=1" class="img-fluid card-img-top" alt="Representativa 1">
+                    <div class="card-body">
+                        <h3>Innovación</h3>
+                        <p>Contenido descriptivo sobre la primera columna del grid responsivo.</p>
+                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#info1">
+                            Leer Más
+                        </button>
+                        <div class="collapse mt-2" id="info1">
+                            <div class="card card-body">Información extra oculta con transición.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <img src="https://picsum.photos/400/300?random=2" class="img-fluid card-img-top" alt="Representativa 2">
+                    <div class="card-body">
+                        <h3>Desarrollo</h3>
+                        <p>Segunda columna que muestra la adaptabilidad del sistema de columnas.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100">
+                    <img src="https://picsum.photos/400/300?random=3" class="img-fluid card-img-top" alt="Representativa 3">
+                    <div class="card-body">
+                        <h3>Publicación</h3>
+                        <p>Tercera columna lista para ser visualizada en cualquier dispositivo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <section id="contacto" class="container my-5 p-4 border rounded bg-white">
+        <h2 class="text-center mb-4">Formulario de Contacto</h2>
+        <form>
+            <div class="form-group mb-3">
+                <label class="form-label">Nombre:</label>
+                <input type="text" class="form-control" placeholder="Ingresa tu nombre">
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Email:</label>
+                <input type="email" class="form-control" placeholder="nombre@correo.com">
+            </div>
+            <div class="form-group mb-3">
+                <label class="form-label">Comentarios:</label>
+                <textarea class="form-control" rows="4" placeholder="Escribe aquí..."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enviar Formulario</button>
+        </form>
+    </section>
+
+    <footer class="text-center bg-light py-4 border-top">
+        <div class="container">
+            <p class="text-muted">© 2025 Proyecto Bootstrap GitHub Pages</p>
+            <a href="#" class="mx-2 text-decoration-none">Inicio</a>
+            <a href="#" class="mx-2 text-decoration-none">Términos</a>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
