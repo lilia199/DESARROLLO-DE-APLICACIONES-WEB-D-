@@ -1,0 +1,292 @@
+/* ====================================================
+   script.js – Lógica interactiva de TechStore
+   ==================================================== */
+
+// --------------------------------------------------------
+// 1. DATOS DE PRODUCTOS (computron  )
+// --------------------------------------------------------
+const productos = [
+  {
+    id: 1,
+    nombre: "MacBook Pro 16\"",
+    categoria: "Laptops",
+    precio: 2899.00,
+    disponible: true
+  },
+  {
+    id: 2,
+    nombre: "Samsung Galaxy S24 Ultra",
+    categoria: "Smartphones",
+    precio: 1349.00,
+    disponible: true
+  },
+  {
+    id: 3,
+    nombre: "Sony WH-1000XM5",
+    categoria: "Audífonos",
+    precio: 449.00,
+    disponible: true
+  },
+  {
+    id: 4,
+    nombre: "Dell XPS 15 OLED",
+    categoria: "Laptops",
+    precio: 1799.00,
+    disponible: false
+  },
+  {
+    id: 5,
+    nombre: "Logitech MX Keys S",
+    categoria: "Teclados",
+    precio: 129.00,
+    disponible: true
+  },
+  {
+    id: 6,
+    nombre: "LG UltraWide 34\"",
+    categoria: "Monitores",
+    precio: 899.00,
+    disponible: true
+  },
+  {
+    id: 7,
+    nombre: "Razer DeathAdder V3",
+    categoria: "Ratones",
+    precio: 89.00,
+    disponible: false
+  },
+  {
+    id: 8,
+    nombre: "Apple AirPods Pro 2",
+    categoria: "Audífonos",
+    precio: 249.00,
+    disponible: true
+  }
+];
+
+// --------------------------------------------------------
+// 2. POBLAR LA TABLA DE PRODUCTOS
+// --------------------------------------------------------
+function poblarTabla() {
+  const tbody = document.querySelector('#tblProductos tbody');
+
+  productos.forEach((producto) => {
+    const fila = document.createElement('tr');
+
+    // Badge según disponibilidad
+    const badgeClase = producto.disponible ? 'badge-disponible' : 'badge-agotado';
+    const badgeTexto = producto.disponible ? 'En stock' : 'Agotado';
+
+    fila.innerHTML = `
+      <td>${producto.id}</td>
+      <td><strong>${producto.nombre}</strong></td>
+      <td>${producto.categoria}</td>
+      <td>$${producto.precio.toFixed(2)}</td>
+      <td><span class="${badgeClase}">${badgeTexto}</span></td>
+      <td>
+        <button class="btn-carrito" onclick="agregaAlCarrito(${producto.id})" ${!producto.disponible ? 'disabled' : ''}>
+          <i class="bi bi-cart-plus me-1"></i>Agregar
+        </button>
+      </td>
+    `;
+
+    tbody.appendChild(fila);
+  });
+}
+
+// --------------------------------------------------------
+// 3. BOTÓN "AGREGAR AL CARRITO" – Feedback visual
+// --------------------------------------------------------
+function agregaAlCarrito(id) {
+  const producto = productos.find(p => p.id === id);
+  if (!producto) return;
+
+  // Mostrar modal con mensaje personalizado
+  mostrarAlerta(
+    '¡Producto agregado!',
+    `<strong>${producto.nombre}</strong> ha sido añadido al carrito.<br/>
+     Precio: <strong>$${producto.precio.toFixed(2)}</strong>`
+  );
+}
+
+// --------------------------------------------------------
+// 4. BOTÓN DE ALERTA (navbar) – Alerta personalizada
+// --------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  const btnAlerta = document.getElementById('btnAlerta');
+
+  // Mensajes aleatorios para la alerta
+  const mensajes = [
+    { titulo: '¡Oferta Flash!',     texto: 'Hay una oferta especial del <strong>30% de descuento</strong> en todos los accesorios. ¡No te lo pierdas!' },
+    { titulo: '¡Producto Nuevo!',   texto: 'Se acaba de añadir el <strong>iPhone 16 Pro Max</strong> a nuestro catálogo. ¡Conózcelo ahora!' },
+    { titulo: '¡Entrega Gratis!',   texto: 'En todas las órdenes superiores a <strong>$150</strong> se incluye envío gratuito a tu puerta.' },
+    { titulo: '¡Recordatorio!',     texto: 'Tienes <strong>3 artículos</strong> en tu carrito esperándote. ¡Completa tu compra!' }
+  ];
+
+  btnAlerta.addEventListener('click', () => {
+    // Seleccionar un mensaje al azar
+    const aleatorio = mensajes[Math.floor(Math.random() * mensajes.length)];
+    mostrarAlerta(aleatorio.titulo, aleatorio.texto);
+  });
+});
+
+// --------------------------------------------------------
+// 5. FUNCIÓN GENÉRICA: Mostrar modal de alerta
+// --------------------------------------------------------
+function mostrarAlerta(titulo, texto) {
+  document.getElementById('textoAlerta').innerHTML = texto;
+
+  // Actualizar título del modal
+  const tituloEl = document.querySelector('.modal-title-alerta');
+  tituloEl.textContent = titulo;
+
+  // Abrir modal de Bootstrap
+  const modal = bootstrap.Modal.getOrCreate(document.getElementById('modalAlerta'));
+  modal.show();
+}
+
+// --------------------------------------------------------
+// 6. VALIDACIÓN DEL FORMULARIO DE CONTACTO
+// --------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  const formulario = document.getElementById('formularioContacto');
+  const campos = {
+    nombre:  document.getElementById('nombre'),
+    correo:  document.getElementById('correo'),
+    mensaje: document.getElementById('mensaje')
+  };
+  const errores = {
+    nombre:  document.getElementById('errNombre'),
+    correo:  document.getElementById('errCorreo'),
+    mensaje: document.getElementById('errMensaje')
+  };
+  const alertaExito = document.getElementById('alertaExito');
+
+  // --- Validar campo individual (en tiempo real) ---
+  Object.keys(campos).forEach((key) => {
+    campos[key].addEventListener('input', () => {
+      validarCampo(key);
+    });
+  });
+
+  // --- Envío del formulario ---
+  formulario.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Ocultar alerta de éxito si estaba visible
+    alertaExito.classList.add('d-none');
+
+    // Validar todos los campos
+    let esValido = true;
+    Object.keys(campos).forEach((key) => {
+      if (!validarCampo(key)) {
+        esValido = false;
+      }
+    });
+
+    if (esValido) {
+      // Simular envío exitoso
+      mostrarExito();
+      formulario.reset();
+      limpiarErrores();
+    }
+  });
+
+  // --- Función: validar un campo específico ---
+  function validarCampo(key) {
+    const campo  = campos[key];
+    const error  = errores[key];
+    let mensaje  = '';
+    let valido   = true;
+
+    const valor = campo.value.trim();
+
+    switch (key) {
+      case 'nombre':
+        if (valor === '') {
+          mensaje = 'El nombre es obligatorio.';
+          valido = false;
+        } else if (valor.length < 2) {
+          mensaje = 'El nombre debe tener al menos 2 caracteres.';
+          valido = false;
+        }
+        break;
+
+      case 'correo':
+        if (valor === '') {
+          mensaje = 'El correo electrónico es obligatorio.';
+          valido = false;
+        } else if (!esgEmail(valor)) {
+          mensaje = 'Ingresa un correo electrónico válido.';
+          valido = false;
+        }
+        break;
+
+      case 'mensaje':
+        if (valor === '') {
+          mensaje = 'El mensaje es obligatorio.';
+          valido = false;
+        } else if (valor.length < 10) {
+          mensaje = 'El mensaje debe tener al menos 10 caracteres.';
+          valido = false;
+        }
+        break;
+    }
+
+    // Aplicar estilos según resultado
+    if (valido) {
+      campo.classList.remove('is-invalid');
+      error.classList.remove('mostrar');
+      error.textContent = '';
+    } else {
+      campo.classList.add('is-invalid');
+      error.textContent = mensaje;
+      error.classList.add('mostrar');
+    }
+
+    return valido;
+  }
+
+  // --- Función: validar formato de email ---
+  function esgEmail(valor) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(valor);
+  }
+
+  // --- Función: mostrar mensaje de éxito ---
+  function mostrarExito() {
+    alertaExito.classList.remove('d-none');
+    // Esconder automáticamente después de 5 segundos
+    setTimeout(() => {
+      alertaExito.classList.add('d-none');
+    }, 5000);
+  }
+
+  // --- Función: limpiar todos los errores ---
+  function limpiarErrores() {
+    Object.keys(campos).forEach((key) => {
+      campos[key].classList.remove('is-invalid');
+      errores[key].classList.remove('mostrar');
+      errores[key].textContent = '';
+    });
+  }
+});
+
+// --------------------------------------------------------
+// 7. EFECTO NAVBAR: sombra al hacer scroll
+// --------------------------------------------------------
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('mainNav');
+  if (window.scrollY > 50) {
+    nav.classList.add('shadow-active');
+  } else {
+    nav.classList.remove('shadow-active');
+  }
+});
+
+// --------------------------------------------------------
+// 8. INICIALIZACIÓN
+// --------------------------------------------------------
+document.addEventListener('DOMContentLoaded', () => {
+  poblarTabla();
+});
