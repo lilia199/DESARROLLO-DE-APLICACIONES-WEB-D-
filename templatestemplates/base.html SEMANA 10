@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block title %} Inicio - Proyecto Flask {% endblock %}
+
+{% block content %}
+    <h1>Bienvenido a mi Aplicación</h1>
+    <p>Esta es la página de inicio renderizada con Jinja2.</p>
+{% endblock %}
